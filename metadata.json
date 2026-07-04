@@ -1,0 +1,6 @@
+{
+  "name": "Zeas Creative Corner",
+  "description": "Premium Digital Studio for modern businesses. Crafting elegant websites, landing pages, digital invitations, promotional videos, and premium digital products.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
