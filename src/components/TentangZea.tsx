@@ -7,6 +7,9 @@ export default function TentangZea() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
+  // State to support graceful fallback to original portrait if custom RAW GitHub URL fails to load
+  const [imgSrc, setImgSrc] = useState("https://raw.githubusercontent.com/username/repository/main/images/logo.png");
+
   // Smooth spring configuration for the parallax movement
   const springConfig = { stiffness: 100, damping: 25 };
   
@@ -55,7 +58,7 @@ export default function TentangZea() {
           <span className="font-sans text-xs md:text-sm tracking-[0.35em] text-fuchsia-brand uppercase font-bold block mb-2">
             MEET THE FOUNDER
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-wide mb-3">
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-wide mb-3">
             About Zea
           </h2>
           <p className="font-sans text-xs md:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
@@ -124,10 +127,12 @@ export default function TentangZea() {
                   style={{ transform: "translateZ(30px)" }}
                 >
                   <img
-                    src="/src/assets/images/zea_portrait_1783142222866.jpg"
+                    src={imgSrc}
+                    onError={() => setImgSrc("/src/assets/images/zea_portrait_1783142222866.jpg")}
                     alt="Zea Portrait - Founder of Zeas Creative Corner"
                     className="w-full h-full object-cover transform scale-[1.03] transition-all duration-700 ease-out group-hover:scale-[1.07] group-hover:rotate-[0.5deg] contrast-[1.03] saturate-[1.04]"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                   
                   {/* Color grading overlays */}
@@ -151,7 +156,7 @@ export default function TentangZea() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-6"
             >
-              <h3 className="font-serif text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
+              <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-900 leading-tight">
                 Meet Zea
               </h3>
               <div className="flex items-center gap-2.5 mt-2">

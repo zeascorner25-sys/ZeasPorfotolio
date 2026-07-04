@@ -86,7 +86,7 @@ export default function KaryaLayananDetail({ categoryId, onBack }: KaryaLayananD
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-serif text-3xl md:text-5xl lg:text-6xl font-semibold text-slate-900 tracking-wide mb-4"
+            className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-slate-900 tracking-wide mb-4"
           >
             {category.title}
           </motion.h1>

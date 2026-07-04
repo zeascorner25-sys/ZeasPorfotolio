@@ -33,6 +33,7 @@ import ContactForm from "./components/ContactForm";
 import TopInfoBar from "./components/TopInfoBar";
 import ScrollIndicator from "./components/ScrollIndicator";
 import TentangZea from "./components/TentangZea";
+import SpotifyPlayer from "./components/SpotifyPlayer";
 
 // Helper hook for animating counters on viewport entry
 function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
@@ -298,7 +299,7 @@ export default function App() {
                   <span className="font-sans text-[10px] md:text-xs tracking-[0.35em] uppercase font-bold block mb-2 shimmer-text-fuchsia">
                     ZEAS CREATIVE CORNER
                   </span>
-                  <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.2] text-slate-900 tracking-wide max-w-3xl mx-auto">
+                  <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold leading-[1.2] text-slate-900 tracking-wide max-w-3xl mx-auto">
                     Bangun Kehadiran Digital yang <span className="shimmer-text-fuchsia italic font-normal">Elegan</span> dan <span className="shimmer-text-dark font-medium">Profesional</span>.
                   </h1>
                 </motion.div>
@@ -335,10 +336,10 @@ export default function App() {
                   className="flex flex-col sm:flex-row justify-center gap-4 mb-8 w-full sm:w-auto"
                 >
                   <button
-                    onClick={() => handleNavigate("portofolio")}
+                    onClick={() => handleNavigate("tentang")}
                     className="interactive-cursor px-6 py-2.5 lg:px-8 lg:py-3.5 bg-fuchsia-brand text-cream font-sans text-[10px] lg:text-xs tracking-widest font-bold uppercase hover:opacity-90 transition-all duration-300 rounded-none shadow-md flex items-center justify-center gap-2 luxury-shimmer-btn border border-fuchsia-brand"
                   >
-                    LIHAT PORTOFOLIO
+                    TENTANG ZEA
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                   
@@ -489,7 +490,7 @@ export default function App() {
                 <span className="font-sans text-xs md:text-sm tracking-[0.35em] text-fuchsia-brand uppercase font-bold block mb-2">
                   ✨ PORTFOLIO & SOLUSI
                 </span>
-                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-wide mb-4">
+                <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-wide mb-4">
                   Karya & Layanan
                 </h2>
                 <p className="font-sans text-xs md:text-sm text-slate-500 leading-relaxed">
@@ -571,7 +572,7 @@ export default function App() {
                 <span className="font-sans text-xs md:text-sm tracking-[0.35em] text-fuchsia-brand uppercase font-semibold block mb-2">
                   CLIENT TESTIMONIALS
                 </span>
-                <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-wide mb-3">
+                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-wide mb-3">
                   Apa Kata Klien Kami
                 </h3>
                 <p className="font-sans text-xs md:text-sm text-slate-500 leading-relaxed">
@@ -680,6 +681,9 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Floating Persistant Background Music Player */}
+      <SpotifyPlayer />
     </>
   );
 }
