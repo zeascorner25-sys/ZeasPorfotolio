@@ -1,21 +1,16 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import React from "react";
+import { motion } from "motion/react";
 import { 
-  ArrowRight, 
-  ArrowLeft, 
-  ExternalLink, 
-  Sparkles, 
   Globe, 
   Rocket, 
   Mail, 
   Video, 
   ShoppingBag, 
   Link as LinkIcon,
-  CheckCircle2,
   PhoneCall,
   ShoppingCart
 } from "lucide-react";
-import { CATEGORIES_DATA, ShowcaseCategory, ProjectItem } from "../data/projects";
+import { CATEGORIES_DATA } from "../data/projects";
 
 interface KaryaLayananProps {
   onSelectCategory: (categoryId: string) => void;
@@ -30,318 +25,222 @@ const CATEGORY_ICONS: Record<string, (cls: string) => React.ReactNode> = {
   "desain-link": (cls) => <LinkIcon className={cls} />
 };
 
-const CARD_STYLES: Record<string, {
-  bgGradient: string;
-  hoverBgGradient: string;
-  glowColor: string;
-}> = {
-  website: {
-    // Fuchsia -> Soft Pink
-    bgGradient: "from-[#FFF0F6]/95 via-[#FFF5F8]/95 to-[#FFEDF5]/95",
-    hoverBgGradient: "group-hover:from-[#FCE7F3] group-hover:via-[#FDF2F8] group-hover:to-[#FFF0F6]",
-    glowColor: "rgba(219,39,119,0.18)"
-  },
-  "landing-page": {
-    // Rose Pink -> Soft Pink
-    bgGradient: "from-[#FFF1F2]/95 via-[#FFF8F9]/95 to-[#FFF0F5]/95",
-    hoverBgGradient: "group-hover:from-[#FFE4E6] group-hover:via-[#FFF1F2] group-hover:to-[#FCE7F3]",
-    glowColor: "rgba(244,114,182,0.18)"
-  },
-  "undangan-website": {
-    // Fuchsia -> Rose Pink
-    bgGradient: "from-[#FFF0F6]/95 via-[#FFF5F8]/95 to-[#FFF1F2]/95",
-    hoverBgGradient: "group-hover:from-[#FCE7F3] group-hover:via-[#FFE4E6] group-hover:to-[#FECDD3]",
-    glowColor: "rgba(225,29,72,0.18)"
-  },
-  "video-ai": {
-    // Deep Fuchsia -> Pink
-    bgGradient: "from-[#FCE7F3]/95 via-[#FDF2F8]/95 to-[#FFF5F7]/95",
-    hoverBgGradient: "group-hover:from-[#FBCFE8] group-hover:via-[#FCE7F3] group-hover:to-[#FFE4E6]",
-    glowColor: "rgba(219,39,119,0.22)"
-  },
-  "produk-digital": {
-    // Pink -> Soft Pink
-    bgGradient: "from-[#FFF0F5]/95 via-[#FFF8FA]/95 to-[#FDF2F8]/95",
-    hoverBgGradient: "group-hover:from-[#FCE7F3] group-hover:via-[#FFF0F5] group-hover:to-[#FFF5F7]",
-    glowColor: "rgba(236,72,153,0.18)"
-  },
-  "desain-link": {
-    // Fuchsia -> Silver Pink
-    bgGradient: "from-[#FFF0F6]/95 via-[#F8FAFC]/95 to-[#FFF0F5]/95",
-    hoverBgGradient: "group-hover:from-[#FCE7F3] group-hover:via-[#F1F5F9] group-hover:to-[#FFF5F8]",
-    glowColor: "rgba(100,116,139,0.15)"
-  }
-};
-
-const CARDS_CONTENT: Record<string, {
-  priceLabel: string;
-  priceValue: string;
+// Custom premium mapping for each category card to fit the requested layout
+const CARDS_LAYOUT: Record<string, {
+  tag: string;
+  title: string;
+  desc: string;
+  price: string;
   projects: string[];
   included: string[];
   viewLabel: string;
   orderLabel: string;
   orderUrl: string;
-  isCustomPricing?: boolean;
 }> = {
   website: {
-    priceLabel: "Harga Mulai Dari",
-    priceValue: "Rp249.000",
+    tag: "WEBSITE",
+    title: "Website Premium Bisnis",
+    desc: "Website premium berkelas dunia untuk menaikkan nilai tawar dan kredibilitas usaha Anda.",
+    price: "Rp249.000",
     projects: ["D'Foria Kitchen", "Company Profile", "Website UMKM"],
     included: ["Responsive", "Mobile Friendly", "SEO Basic", "Revisi Minor"],
-    viewLabel: "✨ Lihat Website",
-    orderLabel: "✨ Pesan via WhatsApp",
+    viewLabel: "Lihat Demo",
+    orderLabel: "Pesan WA",
     orderUrl: "https://wa.me/62881080091195"
   },
   "landing-page": {
-    priceLabel: "Harga Mulai Dari",
-    priceValue: "Rp149.000",
+    tag: "LANDING PAGE",
+    title: "Landing Page Konversi",
+    desc: "Satu halaman promosi dengan copywriting persuasif & CTA optimal maksimalkan penjualan.",
+    price: "Rp149.000",
     projects: ["Zeas Landing Premium", "Landing Produk", "Landing Event"],
-    included: ["Responsive", "CTA Optimized", "Revisi Minor"],
-    viewLabel: "✨ Lihat Landing Page",
-    orderLabel: "✨ Pesan via WhatsApp",
+    included: ["Responsive", "CTA Optimized", "SEO Basic", "Revisi Minor"],
+    viewLabel: "Lihat Demo",
+    orderLabel: "Pesan WA",
     orderUrl: "https://wa.me/62881080091195"
   },
   "undangan-website": {
-    priceLabel: "Harga Mulai Dari",
-    priceValue: "Rp99.000",
-    projects: ["Wedding Invitation Premium"],
-    included: ["Countdown", "Maps", "RSVP", "Musik"],
-    viewLabel: "✨ Lihat Undangan",
-    orderLabel: "✨ Pesan via WhatsApp",
+    tag: "UNDANGAN WEBSITE",
+    title: "Undangan Digital Mewah",
+    desc: "Undangan pernikahan digital interaktif dengan fitur lengkap, lagu latar, & kado digital.",
+    price: "Rp99.000",
+    projects: ["Wedding Invitation", "Birthday Invitation", "Digital Event"],
+    included: ["Countdown & Maps", "RSVP Form", "Lagu Latar", "Kado Digital"],
+    viewLabel: "Lihat Demo",
+    orderLabel: "Pesan WA",
     orderUrl: "https://wa.me/62881080091195"
   },
   "desain-link": {
-    priceLabel: "Harga Mulai Dari",
-    priceValue: "Rp99.000",
-    projects: ["Lynk Premium"],
-    included: ["Custom Design", "Mobile Friendly", "Premium Layout"],
-    viewLabel: "✨ Lihat Desain",
-    orderLabel: "✨ Pesan via WhatsApp",
+    tag: "DESAIN LINK BIO",
+    title: "Bio Link Profesional",
+    desc: "Satu tautan premium merangkum semua kontak, sosial media, & portofolio bisnis Anda.",
+    price: "Rp99.000",
+    projects: ["Premium Link Bio", "Business Link Page", "Personal Brand Link"],
+    included: ["Custom Design", "Mobile Friendly", "Premium Layout", "Fast Load"],
+    viewLabel: "Lihat Demo",
+    orderLabel: "Pesan WA",
     orderUrl: "https://wa.me/62881080091195"
   },
   "video-ai": {
-    priceLabel: "Harga Paket",
-    priceValue: "",
-    projects: ["Video AI Zeas Creative Corner"],
-    included: [], // handled specially
-    viewLabel: "✨ Lihat Video",
-    orderLabel: "✨ Pesan via WhatsApp",
-    orderUrl: "https://wa.me/62881080091195",
-    isCustomPricing: true
+    tag: "VIDEO AI PROMOSI",
+    title: "Video AI Presenter",
+    desc: "Video animasi & presenter AI beresolusi tinggi untuk promosi media sosial memukau.",
+    price: "Rp60.000",
+    projects: ["Video AI Zeas", "AI Avatar Promo", "Motion Clip AI"],
+    included: ["Suara AI Alami", "Scriptwriting AI", "Animasi Premium", "Resolusi HD"],
+    viewLabel: "Lihat Demo",
+    orderLabel: "Pesan WA",
+    orderUrl: "https://wa.me/62881080091195"
   },
   "produk-digital": {
-    priceLabel: "Mulai Dari",
-    priceValue: "Rp15.000",
+    tag: "PRODUK DIGITAL",
+    title: "Template & Aset Kreatif",
+    desc: "Kumpulan template Canva premium & aset desain siap pakai untuk kreator konten.",
+    price: "Rp15.000",
     projects: ["Creative Canvas", "Creative Nest", "Creative Spark"],
-    included: [], // not used
-    viewLabel: "✨ Lihat Produk",
-    orderLabel: "✨ Checkout Produk",
+    included: ["Template Edit", "Asset Premium", "Akses Selamanya", "Update Gratis"],
+    viewLabel: "Lihat Demo",
+    orderLabel: "Beli Produk",
     orderUrl: "https://lynk.id/zeacorner"
   }
 };
 
 export default function KaryaLayanan({ onSelectCategory }: KaryaLayananProps) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 items-stretch">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 items-stretch w-full max-w-7xl mx-auto px-1">
       {CATEGORIES_DATA.map((cat, idx) => {
-        const style = CARD_STYLES[cat.id] || {
-          bgGradient: "from-white/95 to-cream/95",
-          hoverBgGradient: "group-hover:from-white group-hover:to-white",
-          glowColor: "rgba(0,0,0,0.05)"
-        };
-        
-        const content = CARDS_CONTENT[cat.id] || {
-          priceLabel: "Harga Mulai Dari",
-          priceValue: "Hubungi Kami",
-          projects: cat.featuredProjects.map(p => p.title),
-          included: [],
-          viewLabel: "✨ Lihat Project",
-          orderLabel: "✨ Pesan Sekarang",
+        const layout = CARDS_LAYOUT[cat.id] || {
+          tag: cat.title.toUpperCase(),
+          title: cat.title + " Premium",
+          desc: cat.desc,
+          price: "Hubungi Kami",
+          projects: ["Project 1", "Project 2", "Project 3"],
+          included: ["Responsive", "Mobile Friendly", "SEO Basic", "Revisi Minor"],
+          viewLabel: "Lihat Demo",
+          orderLabel: "Pesan WA",
           orderUrl: "https://wa.me/62881080091195"
         };
-        
+
         const iconElement = CATEGORY_ICONS[cat.id] 
-          ? CATEGORY_ICONS[cat.id]("w-5 h-5 text-fuchsia-brand group-hover:text-white transition-colors duration-300") 
-          : <span className="group-hover:text-white transition-colors duration-300">{cat.icon}</span>;
-        
+          ? CATEGORY_ICONS[cat.id]("w-4 h-4 text-[#C2185B]") 
+          : <span>{cat.icon}</span>;
+
         return (
           <motion.div
             key={cat.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
-            className="group p-[1.5px] rounded-2xl luxury-gold-border relative overflow-hidden flex flex-col h-full hover:-translate-y-2 transition-all duration-500 ease-out cursor-pointer"
-            style={{
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.01)"
-            }}
-            whileHover={{
-              boxShadow: "0 25px 50px rgba(212, 175, 55, 0.15), 0 10px 30px rgba(194, 24, 91, 0.08)"
-            }}
+            initial={{ opacity: 0, y: 25, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ duration: 0.5, delay: idx * 0.05, ease: "easeOut" }}
+            className="group rounded-[22px] border border-[#D4AF37]/35 hover:border-[#C2185B] bg-gradient-to-br from-[#FFF5F7] via-[#FFF0F4] to-[#FCE7F3] p-4 flex flex-col justify-between relative overflow-hidden transition-all duration-300 shadow-[0_8px_24px_rgba(194,24,91,0.03)] hover:shadow-[0_12px_30px_rgba(194,24,91,0.18)] hover:-translate-y-1 select-none max-h-[340px] h-full"
           >
-            {/* Inner Card Container with glassmorphism bg gradient */}
-            <div className={`w-full h-full bg-gradient-to-br ${style.bgGradient} ${style.hoverBgGradient} backdrop-blur-[12px] rounded-[15px] p-6 md:p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-500`}>
-              {/* Light highlighting on top-left corner */}
-              <div className="absolute top-0 left-0 w-48 h-48 bg-gradient-to-br from-white/60 to-transparent rounded-tl-[15px] pointer-events-none z-10" />
+            {/* Elegant luxury subtle golden border light sweeping */}
+            <div className="absolute inset-0 opacity-[0.01] pointer-events-none select-none bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]" />
+            
+            {/* Thin Luxury Corners on Hover */}
+            <div className="absolute top-2.5 left-2.5 w-3 h-3 border-t border-l border-[#D4AF37]/40 group-hover:border-[#C2185B]/60 transition-all duration-300 pointer-events-none rounded-tl-sm z-20" />
+            <div className="absolute top-2.5 right-2.5 w-3 h-3 border-t border-r border-[#D4AF37]/40 group-hover:border-[#C2185B]/60 transition-all duration-300 pointer-events-none rounded-tr-sm z-20" />
+            <div className="absolute bottom-2.5 left-2.5 w-3 h-3 border-b border-l border-[#D4AF37]/40 group-hover:border-[#C2185B]/60 transition-all duration-300 pointer-events-none rounded-bl-sm z-20" />
+            <div className="absolute bottom-2.5 right-2.5 w-3 h-3 border-b border-r border-[#D4AF37]/40 group-hover:border-[#C2185B]/60 transition-all duration-300 pointer-events-none rounded-br-sm z-20" />
 
-              {/* Light sweep gleam effect */}
-              <div className="light-sweep-effect" />
+            <div className="relative z-10 flex flex-col flex-grow">
+              
+              {/* 1. Header: Icon + Category Tag */}
+              <div className="flex items-center gap-1.5 text-[9.5px] font-extrabold tracking-[0.18em] text-[#C2185B] uppercase mb-1 leading-none">
+                <span className="shrink-0 p-1 bg-white/40 rounded-full border border-[#D4AF37]/20">
+                  {iconElement}
+                </span>
+                <span>{layout.tag}</span>
+              </div>
 
-              {/* Elegant thin luxury frame corners in Gold */}
-              <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-[#D4AF37]/50 group-hover:border-[#D4AF37] group-hover:w-5 group-hover:h-5 transition-all duration-300 pointer-events-none rounded-tl-sm z-20" />
-              <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-[#D4AF37]/50 group-hover:border-[#D4AF37] group-hover:w-5 group-hover:h-5 transition-all duration-300 pointer-events-none rounded-tr-sm z-20" />
-              <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-[#D4AF37]/50 group-hover:border-[#D4AF37] group-hover:w-5 group-hover:h-5 transition-all duration-300 pointer-events-none rounded-bl-sm z-20" />
-              <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-[#D4AF37]/50 group-hover:border-[#D4AF37] group-hover:w-5 group-hover:h-5 transition-all duration-300 pointer-events-none rounded-br-sm z-20" />
+              {/* 2. Judul */}
+              <h4 className="font-serif text-[15px] sm:text-[16px] font-extrabold text-slate-900 tracking-wide mb-1 leading-tight">
+                {layout.title}
+              </h4>
 
-              <div className="relative z-10 flex-grow">
-                {/* Header: Icon + Category Name */}
-                <div className="flex items-center gap-3.5 mb-5">
-                  {/* Icon in a Glassmorphism circle with thin Gold ring rotating on hover */}
-                  <div className="w-11 h-11 rounded-full bg-white/25 backdrop-blur-md border border-[#D4AF37]/45 flex items-center justify-center relative group-hover:bg-[#D4AF37]/10 transition-all duration-500 shadow-sm">
-                    <div className="absolute inset-0 rounded-full border border-[#D4AF37]/50 group-hover:rotate-[5deg] transition-transform duration-500 pointer-events-none" />
-                    <div className="group-hover:scale-110 transition-transform duration-300 relative z-10">
-                      {iconElement}
-                    </div>
-                  </div>
-                  <span className="font-serif text-xs tracking-[0.25em] text-slate-500 uppercase font-bold group-hover:text-fuchsia-brand transition-colors duration-300">
-                    {cat.title}
-                  </span>
+              {/* 3. Deskripsi singkat (di-clamp agar tepat 2 baris) */}
+              <p className="font-sans text-[11px] text-slate-500 leading-[1.35] line-clamp-2 mb-2 pr-1 h-[30px] overflow-hidden">
+                {layout.desc}
+              </p>
+
+              {/* Divider ━━━━━━━━━━━━━━ */}
+              <div className="border-t border-[#D4AF37]/20 w-full mb-1.5 shrink-0" />
+
+              {/* 4. Project Unggulan */}
+              <div className="mb-1.5 flex flex-col shrink-0">
+                <div className="text-[9.5px] font-bold text-[#C2185B]/90 tracking-wide flex items-center gap-1 leading-none mb-1">
+                  <span>✨</span> Project Unggulan
                 </div>
-
-                {/* Tagline / Subtitle */}
-                <h4 className="font-serif text-lg font-bold text-slate-900 tracking-wide mb-3 leading-relaxed">
-                  {cat.desc}
-                </h4>
-
-                {/* Divider */}
-                <div className="w-12 h-[1px] bg-[#D4AF37]/40 my-4 group-hover:w-20 group-hover:bg-[#D4AF37]/70 transition-all duration-500" />
-
-                {/* Project Unggulan Section */}
-                <div className="mb-5">
-                  <span className="font-sans text-[9px] tracking-[0.2em] font-bold text-slate-400 uppercase block mb-2.5">
-                    PROJECT UNGGULAN
-                  </span>
-                  <ul className="space-y-2">
-                    {content.projects.map((title, pIdx) => (
-                      <li key={pIdx} className="flex items-center gap-2.5">
-                        <span className="w-1.5 h-1.5 rotate-45 bg-[#D4AF37]/70 group-hover:scale-125 group-hover:bg-fuchsia-brand transition-all duration-300 shrink-0" />
-                        <span className="font-sans text-xs md:text-sm text-slate-800 font-medium group-hover:text-slate-950 transition-colors duration-300">
-                          {title}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* PRICING DETAILS SECTION */}
-                <div className="mt-5 pt-4 border-t border-silver-brand/15 bg-[#FFFDFB]/30 rounded-lg p-3.5 border border-[#D4AF37]/10 mb-6">
-                  {content.isCustomPricing ? (
-                    /* Video AI Special Grid Layout */
-                    <div className="space-y-4">
-                      <div>
-                        <span className="font-sans text-[9px] tracking-[0.15em] font-bold text-slate-400 uppercase block mb-1.5">
-                          PILIHAN PAKET VIDEO AI
-                        </span>
-                        <div className="grid grid-cols-1 gap-1.5 font-sans">
-                          <div className="flex justify-between items-center bg-white/50 p-2 rounded border border-[#D4AF37]/5 text-xs">
-                            <span className="font-semibold text-slate-800">Paket Reguler</span>
-                            <span className="font-bold text-fuchsia-brand font-mono">Rp60.000 <span className="text-[10px] font-normal text-slate-500">/ 30s</span></span>
-                          </div>
-                          <div className="flex justify-between items-center bg-white/60 p-2 rounded border border-[#D4AF37]/10 text-xs">
-                            <span className="font-semibold text-slate-800 flex items-center gap-1">Paket Prioritas <Sparkles className="w-3 h-3 text-[#D4AF37]" /></span>
-                            <span className="font-bold text-fuchsia-brand font-mono">Rp100.000 <span className="text-[10px] font-normal text-slate-500">/ 30s</span></span>
-                          </div>
-                          <div className="flex justify-between items-center bg-white/50 p-2 rounded border border-[#D4AF37]/5 text-xs">
-                            <span className="font-semibold text-slate-800">Paket Express</span>
-                            <span className="font-bold text-fuchsia-brand font-mono">Rp150.000 <span className="text-[10px] font-normal text-slate-500">/ 30s</span></span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <span className="font-sans text-[9px] tracking-[0.15em] font-bold text-slate-400 uppercase block mb-1.5">
-                          OPSI DURASI & HARGA
-                        </span>
-                        <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-sans">
-                          <div className="bg-white/40 p-2 rounded border border-[#D4AF37]/5">
-                            <div className="text-slate-500 font-medium">60 detik</div>
-                            <div className="font-bold text-slate-900 font-mono mt-0.5">Rp120k</div>
-                          </div>
-                          <div className="bg-white/40 p-2 rounded border border-[#D4AF37]/5">
-                            <div className="text-slate-500 font-medium">90 detik</div>
-                            <div className="font-bold text-slate-900 font-mono mt-0.5">Rp180k</div>
-                          </div>
-                          <div className="bg-white/50 p-2 rounded border border-[#D4AF37]/10">
-                            <div className="text-slate-500 font-medium">120 detik</div>
-                            <div className="font-bold text-slate-900 font-mono mt-0.5">Rp240k</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    /* Standard pricing layout with included checklist */
-                    <div className="space-y-3.5">
-                      <div className="flex flex-col">
-                        <span className="font-sans text-[9px] tracking-[0.15em] font-bold text-slate-400 uppercase">
-                          {content.priceLabel}
-                        </span>
-                        <span className="font-serif text-2xl font-bold text-slate-900 font-mono tracking-tight mt-0.5">
-                          {content.priceValue}
-                        </span>
-                      </div>
-
-                      {content.included.length > 0 && (
-                        <div>
-                          <span className="font-sans text-[9px] tracking-[0.15em] font-bold text-slate-400 uppercase block mb-1.5">
-                            YANG DIDAPAT (TERMASUK)
-                          </span>
-                          <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700">
-                            {content.included.map((inc, iIdx) => (
-                              <div key={iIdx} className="flex items-center gap-1.5 text-xs">
-                                <span className="text-[#D4AF37] font-semibold">✔</span>
-                                <span className="font-sans font-medium text-slate-700">{inc}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[10.5px] text-slate-700 font-semibold leading-tight">
+                  {layout.projects.map((proj, pIdx) => (
+                    <span key={pIdx} className="whitespace-nowrap">
+                      • {proj}
+                    </span>
+                  ))}
                 </div>
               </div>
 
-              {/* Bottom Actions Row: Dual Buttons */}
-              <div className="mt-4 pt-5 border-t border-silver-brand/15 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 relative z-10">
-                
-                {/* View / Explore Button */}
-                <button
-                  onClick={() => onSelectCategory(cat.id)}
-                  className="interactive-cursor flex-1 py-3 px-4 bg-white border border-[#D4AF37]/30 text-[10px] font-sans font-bold tracking-widest text-slate-800 uppercase hover:bg-cream/40 shadow-sm transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-1.5"
-                >
-                  {content.viewLabel}
-                </button>
+              {/* Divider ━━━━━━━━━━━━━━ */}
+              <div className="border-t border-[#D4AF37]/20 w-full mb-1.5 shrink-0" />
 
-                {/* Primary WhatsApp / Checkout Button */}
-                <a
-                  href={content.orderUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="interactive-cursor flex-1 py-3 px-4 bg-[#FFF8F2]/95 border border-[#D4AF37] text-[10px] font-sans font-bold tracking-widest text-fuchsia-brand uppercase hover:bg-white hover:text-fuchsia-hover hover:border-fuchsia-brand shadow-md transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-1.5"
-                >
-                  {cat.id === "produk-digital" ? (
-                    <ShoppingCart className="w-3.5 h-3.5" />
-                  ) : (
-                    <PhoneCall className="w-3.5 h-3.5 text-fuchsia-brand" />
-                  )}
-                  {content.orderLabel}
-                </a>
+              {/* 5. Pricing & Checklist in 2 columns */}
+              <div className="flex items-center justify-between gap-2.5 bg-white/45 backdrop-blur-sm rounded-[14px] p-2 border border-[#D4AF37]/15 mb-2 shrink-0">
+                {/* Price Label */}
+                <div className="flex flex-col shrink-0">
+                  <span className="text-[8.5px] font-bold text-slate-400 uppercase tracking-wider leading-none mb-0.5">💰 Mulai</span>
+                  <span className="font-mono text-[13px] sm:text-[14px] font-black text-[#C2185B] leading-none">
+                    {layout.price}
+                  </span>
+                </div>
 
+                {/* Micro vertical divider */}
+                <div className="w-[1px] h-7 bg-slate-300/40 shrink-0" />
+
+                {/* Checklist (2 Kolom) */}
+                <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 flex-grow text-left">
+                  {layout.included.slice(0, 4).map((inc, iIdx) => (
+                    <div key={iIdx} className="flex items-center gap-1 text-[9.5px] text-slate-700 font-bold whitespace-nowrap overflow-hidden text-ellipsis leading-none">
+                      <span className="text-emerald-600 text-[10px] font-extrabold leading-none">✓</span>
+                      <span className="truncate max-w-[70px] xs:max-w-[85px] leading-none">{inc}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
+
             </div>
+
+            {/* Divider ━━━━━━━━━━━━━━ */}
+            <div className="border-t border-[#D4AF37]/10 w-full mb-2 shrink-0" />
+
+            {/* 6. Dual Buttons Bottom Row */}
+            <div className="flex items-center gap-2 shrink-0">
+              {/* View / Demo Button */}
+              <button
+                onClick={() => onSelectCategory(cat.id)}
+                className="interactive-cursor flex-1 py-1.5 px-3 bg-white/80 hover:bg-[#C2185B] hover:text-white border border-[#D4AF37]/35 hover:border-[#C2185B] text-[10px] font-sans font-extrabold tracking-widest text-slate-700 uppercase shadow-sm transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-1 rounded-full text-ellipsis overflow-hidden whitespace-nowrap h-[28px]"
+              >
+                <span>{layout.viewLabel}</span>
+              </button>
+
+              {/* Message WhatsApp / Checkout Button */}
+              <a
+                href={layout.orderUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="interactive-cursor flex-1 py-1.5 px-3 bg-[#C2185B] hover:bg-[#A01048] border border-[#C2185B] text-[10px] font-sans font-extrabold tracking-widest text-white uppercase shadow-md transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-1 rounded-full text-ellipsis overflow-hidden whitespace-nowrap h-[28px]"
+              >
+                {cat.id === "produk-digital" ? (
+                  <ShoppingCart className="w-3 h-3 text-white shrink-0" />
+                ) : (
+                  <PhoneCall className="w-3 h-3 text-white shrink-0" />
+                )}
+                <span>{layout.orderLabel}</span>
+              </a>
+            </div>
+
           </motion.div>
         );
       })}
     </div>
   );
 }
-

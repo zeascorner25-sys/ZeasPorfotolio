@@ -1,0 +1,31 @@
+{
+  "name": "Zeas Creative Corner",
+  "short_name": "Zeas Corner",
+  "description": "Bangun Kehadiran Digital yang Elegan dan Profesional",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFF8F2",
+  "theme_color": "#C2185B",
+  "categories": ["business", "portfolio", "productivity"],
+  "icons": [
+    {
+      "src": "/zeas_brand_icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/zeas_brand_icon.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/zeas_brand_icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ]
+}

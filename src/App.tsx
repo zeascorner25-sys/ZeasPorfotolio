@@ -34,6 +34,8 @@ import TopInfoBar from "./components/TopInfoBar";
 import ScrollIndicator from "./components/ScrollIndicator";
 import TentangZea from "./components/TentangZea";
 import SpotifyPlayer from "./components/SpotifyPlayer";
+import InstallPrompt from "./components/InstallPrompt";
+import HeroBadges from "./components/HeroBadges";
 
 // Helper hook for animating counters on viewport entry
 function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
@@ -131,8 +133,9 @@ export default function App() {
 
   const handleNavigate = (sectionId: string) => {
     setSelectedCategory(null);
+    const targetId = sectionId === "harga" ? "karya-layanan" : sectionId;
     setTimeout(() => {
-      const el = document.getElementById(sectionId);
+      const el = document.getElementById(targetId);
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
         setActiveSection(sectionId);
@@ -269,25 +272,7 @@ export default function App() {
               <div className="flex flex-col items-center text-center w-full max-w-4xl mx-auto z-10 pt-2">
                 
                 {/* 1. Badge (Micro Animation Sequence: Mini Badges) */}
-                <div className="flex flex-wrap gap-1.5 justify-center mb-6 z-10">
-                  {[
-                    "Luxury Digital Studio",
-                    "Responsive Design",
-                    "Premium UI/UX",
-                    "Fast Response",
-                    "Modern Design"
-                  ].map((badgeText, idx) => (
-                    <motion.span
-                      key={idx}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      className="interactive-cursor inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-silver-brand/35 text-[8px] font-mono tracking-wider text-slate-700 font-bold uppercase hover:border-fuchsia-brand/40 shadow-sm transition-all duration-300"
-                    >
-                      <span className="w-1 h-1 rounded-full bg-fuchsia-brand animate-pulse" />
-                      {badgeText}
-                    </motion.span>
-                  ))}
-                </div>
+                <HeroBadges />
 
                 {/* 2. Headline (Micro Animation Sequence 3: Headline with Shimmer) */}
                 <motion.div
@@ -399,10 +384,14 @@ export default function App() {
                         {/* Mock Image */}
                         <div className="w-full h-full bg-cream overflow-hidden relative">
                           <img
-                            src="/src/assets/images/agency_website_mockup_1783132862805.jpg"
+                            src="/assets/images/agency_website_mockup_1783132862805.jpg"
+                            onError={(e) => {
+                              e.currentTarget.src = "/zeas_brand_icon.jpg";
+                            }}
                             alt="Zeas Creative Corner Agency Website on Laptop"
                             className="w-full h-full object-cover"
                             referrerPolicy="no-referrer"
+                            loading="lazy"
                           />
                         </div>
                       </div>
@@ -426,10 +415,14 @@ export default function App() {
                         {/* Mock Image */}
                         <div className="w-full h-full bg-white overflow-hidden relative">
                           <img
-                            src="/src/assets/images/saas_landing_page_mockup_1783132876954.jpg"
+                            src="/assets/images/saas_landing_page_mockup_1783132876954.jpg"
+                            onError={(e) => {
+                              e.currentTarget.src = "/zeas_brand_icon.jpg";
+                            }}
                             alt="Zeas Creative Corner Landing Page on Tablet"
                             className="w-full h-full object-cover"
                             referrerPolicy="no-referrer"
+                            loading="lazy"
                           />
                         </div>
                       </div>
@@ -450,10 +443,14 @@ export default function App() {
                         {/* Mock Image */}
                         <div className="w-full h-full bg-cream overflow-hidden relative">
                           <img
-                            src="/src/assets/images/mobile_link_design_mockup_1783132970153.jpg"
+                            src="/assets/images/mobile_link_design_mockup_1783132970153.jpg"
+                            onError={(e) => {
+                              e.currentTarget.src = "/zeas_brand_icon.jpg";
+                            }}
                             alt="Zeas Creative Corner Mobile Link Design on Smartphone"
                             className="w-full h-full object-cover"
                             referrerPolicy="no-referrer"
+                            loading="lazy"
                           />
                         </div>
                       </div>
@@ -684,6 +681,9 @@ export default function App() {
 
       {/* Floating Persistant Background Music Player */}
       <SpotifyPlayer />
+
+      {/* Floating PWA Install Prompt (Bottom-Left) */}
+      <InstallPrompt />
     </>
   );
 }

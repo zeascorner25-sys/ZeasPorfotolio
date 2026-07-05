@@ -7,8 +7,8 @@ export default function TentangZea() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // State to support graceful fallback to original portrait if custom RAW GitHub URL fails to load
-  const [imgSrc, setImgSrc] = useState("https://raw.githubusercontent.com/username/repository/main/images/logo.png");
+  // State to support graceful fallback to original portrait
+  const [imgSrc, setImgSrc] = useState("/assets/images/zea_portrait_1783142222866.jpg");
 
   // Smooth spring configuration for the parallax movement
   const springConfig = { stiffness: 100, damping: 25 };
@@ -128,7 +128,7 @@ export default function TentangZea() {
                 >
                   <img
                     src={imgSrc}
-                    onError={() => setImgSrc("/src/assets/images/zea_portrait_1783142222866.jpg")}
+                    onError={() => setImgSrc("/zeas_brand_icon.jpg")}
                     alt="Zea Portrait - Founder of Zeas Creative Corner"
                     className="w-full h-full object-cover transform scale-[1.03] transition-all duration-700 ease-out group-hover:scale-[1.07] group-hover:rotate-[0.5deg] contrast-[1.03] saturate-[1.04]"
                     referrerPolicy="no-referrer"
