@@ -482,8 +482,8 @@ export default function App() {
             </section>
 
             {/* KARYA & LAYANAN SECTION */}
-            <section id="karya-layanan" className="py-20 px-6 md:px-12 max-w-7xl mx-auto w-full relative z-10 scroll-mt-[132px] lg:scroll-mt-[152px]">
-              <div className="text-center max-w-3xl mx-auto mb-14">
+            <section id="karya-layanan" className="py-12 md:py-20 px-4 md:px-12 max-w-7xl mx-auto w-full relative z-10 scroll-mt-[132px] lg:scroll-mt-[152px]">
+              <div className="text-center max-w-3xl mx-auto mb-8 md:mb-14">
                 <span className="font-sans text-xs md:text-sm tracking-[0.35em] text-fuchsia-brand uppercase font-bold block mb-2">
                   ✨ PORTFOLIO & SOLUSI
                 </span>
@@ -564,8 +564,8 @@ export default function App() {
             <TentangZea />
 
             {/* TESTIMONI SECTION */}
-            <section id="testimoni" className="py-16 px-6 md:px-12 max-w-7xl mx-auto w-full relative z-10 scroll-mt-[132px] lg:scroll-mt-[152px]">
-              <div className="text-center max-w-3xl mx-auto mb-12">
+            <section id="testimoni" className="py-10 md:py-16 px-4 md:px-12 max-w-7xl mx-auto w-full relative z-10 scroll-mt-[132px] lg:scroll-mt-[152px]">
+              <div className="text-center max-w-3xl mx-auto mb-6 md:mb-12">
                 <span className="font-sans text-xs md:text-sm tracking-[0.35em] text-fuchsia-brand uppercase font-semibold block mb-2">
                   CLIENT TESTIMONIALS
                 </span>
@@ -583,7 +583,7 @@ export default function App() {
             </section>
 
             {/* KONTAK SECTION */}
-            <section id="kontak" className="py-16 px-6 md:px-12 max-w-7xl mx-auto w-full relative z-10 scroll-mt-[132px] lg:scroll-mt-[152px]">
+            <section id="kontak" className="py-10 md:py-16 px-4 md:px-12 max-w-7xl mx-auto w-full relative z-10 scroll-mt-[132px] lg:scroll-mt-[152px]">
               {/* Core Contact Form & Direct channels */}
               <ContactForm />
             </section>

@@ -43,7 +43,7 @@ export default function TentangZea() {
   return (
     <section 
       id="tentang" 
-      className="py-24 px-6 md:px-12 bg-gradient-to-b from-white via-[#FFF9F6] to-white border-y border-silver-brand/15 relative z-10 overflow-hidden scroll-mt-[132px] lg:scroll-mt-[152px]"
+      className="py-12 md:py-24 px-4 md:px-12 bg-gradient-to-b from-white via-[#FFF9F6] to-white border-y border-silver-brand/15 relative z-10 overflow-hidden scroll-mt-[132px] lg:scroll-mt-[152px]"
     >
       {/* Dynamic luxury background elements */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none select-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }} />
@@ -54,7 +54,7 @@ export default function TentangZea() {
 
       <div className="max-w-7xl mx-auto w-full">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
+        <div className="text-center max-w-2xl mx-auto mb-8 md:mb-20">
           <span className="font-sans text-xs md:text-sm tracking-[0.35em] text-fuchsia-brand uppercase font-bold block mb-2">
             MEET THE FOUNDER
           </span>

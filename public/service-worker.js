@@ -46,25 +46,20 @@ self.addEventListener("activate", (event) => {
 
 // 3. Fetch Event: Serve assets from Cache or Fallback to Offline
 self.addEventListener("fetch", (event) => {
-  // Only handle GET requests
   if (event.request.method !== "GET") return;
 
-  // Handle HTML document navigation requests
   if (event.request.mode === "navigate") {
     event.respondWith(
       fetch(event.request).catch(() => {
-        // If fetch fails (offline), return cached offline page
         return caches.match(OFFLINE_URL);
       })
     );
     return;
   }
 
-  // Stale-While-Revalidate strategy for static resources (JS, CSS, Images, Fonts)
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // Fetch in background to update cache asynchronously
         fetch(event.request)
           .then((networkResponse) => {
             if (networkResponse.status === 200) {
@@ -73,15 +68,11 @@ self.addEventListener("fetch", (event) => {
               });
             }
           })
-          .catch(() => {
-            /* Ignore network errors during async revalidation */
-          });
+          .catch(() => {});
         return cachedResponse;
       }
 
-      // If not cached, fetch from network
       return fetch(event.request).then((networkResponse) => {
-        // Cache successful responses for future offline use
         if (
           networkResponse &&
           networkResponse.status === 200 &&
@@ -94,7 +85,6 @@ self.addEventListener("fetch", (event) => {
         }
         return networkResponse;
       }).catch(() => {
-        // Fallback for media files or fetch errors
         return new Response("Offline resource unavailable", {
           status: 503,
           statusText: "Service Unavailable"
